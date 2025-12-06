@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Translator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #12372A;
+            --secondary: #436850;
+            --text-main: #12372A;
+            --text-sub: #5C6E66;
+            --border: #D1D5CB;
+            --surface: #FFFFFF;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.5;
+            background: linear-gradient(-45deg, #FDFCF5, #F4FBF7, #ECF7F3, #FDFCF5);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- LAYOUT UTILS --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(18, 55, 42, 0.15);
+        }
+
+        /* --- HEADER --- */
+        header { padding: 24px 0; }
+        .nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 800; font-size: 18px; letter-spacing: -0.5px; opacity: 0.8; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 180px 0 100px;
+        }
+
+        /* FIXED LAYOUT GRID - Keeps "Community" static */
+        .hero h1 {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Split screen in half */
+            gap: 20px;
+            align-items: center;
+            
+            font-size: 92px;
+            letter-spacing: -3px;
+            line-height: 1;
+            margin: 0 0 24px;
+            color: var(--primary);
+            font-weight: 800;
+            width: 100%;
+        }
+
+        /* Left side (Static) */
+        .hero h1 span:first-child {
+            text-align: right;
+        }
+
+        /* Right side (Animated) */
+        .hero h1 span:last-child {
+            text-align: left;
+            color: var(--secondary);
+            white-space: nowrap;
+            /* Typing Cursor Style */
+            border-right: 4px solid var(--secondary);
+            padding-right: 10px;
+            animation: blink-cursor 0.75s step-end infinite;
+        }
+
+        /* The Blinking Cursor Animation */
+        @keyframes blink-cursor {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--secondary); }
+        }
+
+        .hero-content { text-align: center; }
+
+        .hero h2 {
+            font-size: 32px;
+            font-weight: 500;
+            color: var(--text-sub);
+            letter-spacing: -1px;
+            margin: 0 0 32px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-sub);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0.8;
+        }
+
+        /* --- DEMO SIMULATOR --- */
+        .demo-section { margin: 40px 0 80px; }
+        .browser-window {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+            box-shadow: 0 20px 40px -12px rgba(18, 55, 42, 0.1); overflow: hidden; max-width: 800px; margin: 0 auto;
+        }
+        .browser-bar { background: #F1F3F4; padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #D1D5CB; }
+        .url-bar { background: white; flex: 1; height: 28px; border-radius: 4px; border: 1px solid #E0E0E0; display: flex; align-items: center; padding: 0 10px; font-size: 12px; color: #999; }
+        .content-area { padding: 60px 40px; text-align: left; transition: background 0.3s; }
+        .sim-text { font-family: 'Georgia', serif; font-size: 24px; line-height: 1.6; color: #333; margin-bottom: 30px; }
+        .highlight-box { background-color: #E8F5E9; color: var(--primary); padding: 2px 4px; border-radius: 4px; font-family: 'Inter', sans-serif; font-weight: 500; box-shadow: 0 0 0 1px #C8E6C9; }
+
+        /* --- FEATURES --- */
+        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 80px 0; border-top: 1px solid var(--border); }
+        .feature-item h3 { font-size: 20px; margin-bottom: 12px; }
+        .feature-item p { color: var(--text-sub); line-height: 1.6; }
+        .icon { width: 48px; height: 48px; background: #F0FDF4; color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+
+        /* --- INSTALLATION --- */
+        .install-guide { background: rgba(232, 230, 217, 0.5); padding: 80px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .steps-container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .step-list { list-style: none; padding: 0; counter-reset: step-counter; }
+        .step-item { position: relative; padding-left: 60px; margin-bottom: 40px; }
+        .step-item::before { counter-increment: step-counter; content: counter(step-counter); position: absolute; left: 0; top: 0; width: 36px; height: 36px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; }
+        .step-item h4 { margin: 0 0 8px; font-size: 20px; }
+        .step-item p { margin: 0; color: var(--text-sub); font-size: 16px; }
+
+        /* --- FOOTER --- */
+        footer { padding: 60px 0; text-align: center; color: var(--text-sub); font-size: 14px; background-color: var(--bg-color); }
+        footer a { color: var(--primary); text-decoration: none; font-weight: 600; border-bottom: 1px solid transparent; transition: border-bottom 0.2s; }
+        footer a:hover { border-bottom: 1px solid var(--primary); }
+        .credit { margin-top: 12px; opacity: 0.6; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* --- MOBILE --- */
+        @media (max-width: 768px) {
+            .hero h1 { 
+                font-size: 48px; 
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 0;
+            }
+            .hero h1 span:first-child, .hero h1 span:last-child {
+                text-align: center;
+                border-right: none; /* Remove cursor on mobile stack if preferred */
+            }
+            .hero h2 { font-size: 24px; }
+            .features, .steps-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="container">
+            <h1>
+                <span>Community</span>
+                <span id="typewriter">Translator</span>
+            </h1>
+            
+            <div class="hero-content">
+                <h2>Making community information accessible to everyone.</h2>
+                <p>A browser extension that simplifies complex government documents, translates live meetings, and highlights what actually matters.</p>
+                
+                <a href="#" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 10px;">
+                        <path d="M12 5v14M5 12h14"></path>
+                    </svg>
+                    Add to Chrome
+                </a>
+                <p style="font-size: 13px; margin-top: 16px; opacity: 0.6;">Version 6.0 • Free for Community Use</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="demo-section">
+        <div class="container">
+            <div class="browser-window">
+                <div class="browser-bar">
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    <div class="url-bar">town-hall-meeting-minutes.pdf</div>
+                </div>
+                <div class="content-area" id="demoArea">
+                    <p id="demoText" class="sim-text">
+                        "It is imperative that individuals utilize the designated pedestrian pathways to facilitate safety. Subsequent to the modification of regulations, non-compliant actions are prohibited."
+                    </p>
+                    <button class="btn btn-primary" onclick="runDemo()" id="demoBtn" style="margin-top: 20px;">
+                        Simplify Text
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="features">
+            <div class="feature-item">
+                <div class="icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                </div>
+                <h3>9th Grade Simplification</h3>
+                <p>We automatically rewrite complex "legalese" and bureaucratic jargon into clear, readable English suitable for a 9th-grade reading level.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                <h3>Analysis & Context</h3>
+                <p>Click "Analyze" on any webpage to instantly highlight the 3 most critical points. Hover over them to understand why they matter.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                </div>
+                <h3>Live Video Captions</h3>
+                <p>Watch town hall recordings or Zoom meetings with real-time translation and captions, directly in your browser.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="install-guide">
+        <div class="container">
+            <h2 style="font-size: 36px; color: var(--primary); margin-bottom: 20px; text-align: center;">Join the Community Pilot</h2>
+            <p style="color: var(--text-sub); margin-bottom: 40px; font-size: 18px; text-align: center; max-width: 700px; margin-left: auto; margin-right: auto;">
+                We aren't in the Chrome Web Store just yet! As a pilot user, you can install the extension manually by following these simple steps.
+            </p>
+            
+            <div style="text-align: center; margin-bottom: 60px;">
+                <a href="INSERT_YOUR_GITHUB_ZIP_LINK_HERE" class="btn btn-primary" style="padding: 20px 40px; font-size: 18px; box-shadow: 0 10px 30px rgba(18, 55, 42, 0.2);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 12px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download Pilot Version (ZIP)
+                </a>
+            </div>
+
+            <div class="steps-container">
+                <ul class="step-list">
+                    <li class="step-item">
+                        <h4>1. Unzip the File</h4>
+                        <p>Find the downloaded ZIP file on your computer. Right-click it and select <strong>"Extract All"</strong>. You need the <em>folder</em> inside, not the ZIP file itself.</p>
+                    </li>
+                    <li class="step-item">
+                        <h4>2. Open Extension Management</h4>
+                        <p>In Chrome, copy and paste this address into a new tab and press enter:</p>
+                        <code style="display: block; background: white; padding: 10px; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; font-family: monospace;">chrome://extensions</code>
+                    </li>
+                </ul>
+                
+                <ul class="step-list" style="counter-reset: step-counter 2;"> <li class="step-item">
+                        <h4>3. Enable Developer Mode</h4>
+                        <p>In the top right corner of the extensions page, toggle the <strong>"Developer mode"</strong> switch to ON.</p>
+                    </li>
+                    <li class="step-item">
+                        <h4>4. Load the Folder</h4>
+                        <p>Click the new <strong>"Load unpacked"</strong> button that appeared. Select the folder you unzipped in Step 1. That's it!</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                a community ai project from <a href="https://brooklineinteractive.org" target="_blank">brookline interactive group</a> in partnership with <a href="https://neighborhoodai.org" target="_blank">neighborhoodai.org</a>
+            </p>
+            <p class="credit">designed and developed by stephen walter and ai</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. SIMULATOR LOGIC ---
+        function runDemo() {
+            const textEl = document.getElementById('demoText');
+            const btn = document.getElementById('demoBtn');
+            const simplified = `"It is <span class='highlight-box'>important</span> that people <span class='highlight-box'>use</span> the crosswalks to stay safe. <span class='highlight-box'>After</span> the rules <span class='highlight-box'>change</span>, breaking them is <span class='highlight-box'>not allowed</span>."`;
+
+            textEl.style.opacity = '0';
+            btn.innerHTML = "Processing...";
+            
+            setTimeout(() => {
+                textEl.innerHTML = simplified;
+                textEl.style.fontFamily = "'Inter', sans-serif"; 
+                textEl.style.opacity = '1';
+                btn.innerHTML = "Reset Demo";
+                btn.onclick = () => location.reload();
+            }, 400);
+        }
+
+        // --- 2. FAST TYPEWRITER EFFECT ---
+        const words = [
+            "Translator", 
+            "Traductor", 
+            "Traducteur", 
+            "Übersetzer", 
+            "翻译", 
+            "مترجم", // Arabic
+            "번역기", // Korean
+            "Người dịch", 
+            "Traduttore"
+        ];
+        
+        const el = document.getElementById('typewriter');
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        function type() {
+            const currentWord = words[wordIndex];
+            
+            if (isDeleting) {
+                // Delete char
+                el.innerText = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                // Add char
+                el.innerText = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            // Speeds: Faster typing (80ms), Faster deleting (40ms), Pause (1000ms)
+            let typeSpeed = isDeleting ? 40 : 80;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                // Word complete, pause then delete
+                isDeleting = true;
+                typeSpeed = 1000; 
+            } else if (isDeleting && charIndex === 0) {
+                // Word deleted, move to next
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typeSpeed = 200;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+
+        // Start animation
+        document.addEventListener('DOMContentLoaded', type);
+    </script>
+</body>
+</html>

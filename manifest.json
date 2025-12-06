@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Community AI Assistant",
+  "version": "6.0",
+  "description": "Analyze (Gemini) and Translate (Google Cloud) community info.",
+  "action": { "default_popup": "popup.html" },
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*",
+    "https://translation.googleapis.com/*"
+  ]
+}
